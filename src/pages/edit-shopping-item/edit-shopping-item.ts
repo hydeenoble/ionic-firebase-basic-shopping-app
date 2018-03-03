@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseObjectObservable } from "angularfire2/database-deprecated";
-import {ShoppingItemInterface} from "../../models/shopping-item/shopping-item.interface";
+import { ShoppingItemInterface} from "../../models/shopping-item/shopping-item.interface";
+import { Subscription } from "rxjs/Subscription";
 
 /**
  * Generated class for the EditShoppingItemPage page.
@@ -17,20 +18,30 @@ import {ShoppingItemInterface} from "../../models/shopping-item/shopping-item.in
 })
 export class EditShoppingItemPage {
 
+  shoppingItemSubscription : Subscription;
+
   shoppingItemRef$ : FirebaseObjectObservable<ShoppingItemInterface>;
+
+  shoppingItem = {} as ShoppingItemInterface;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   private database: AngularFireDatabase) {
 
     const shoppingItemId = this.navParams.get('shoppingItemId');
 
-    console.log(shoppingItemId);
+    this.shoppingItemRef$ = this.database.object(`shopping-list/${shoppingItemId}`);
 
-    this.shoppingItemRef$ = this.database.object(`shopping-list/${shoppingItemId}`)
+    this.shoppingItemSubscription = this.shoppingItemRef$
+      .subscribe(shoppingItem => this.shoppingItem = shoppingItem);
+
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditShoppingItemPage');
+  editShoppingItem(shoppingItem: ShoppingItemInterface){
+    this.shoppingItemRef$.update(shoppingItem);
+    this.navCtrl.pop();
   }
 
+  ionViewWillLeave(){
+    this.shoppingItemSubscription.unsubscribe();
+  }
 }

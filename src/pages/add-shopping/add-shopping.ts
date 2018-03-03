@@ -29,10 +29,14 @@ export class AddShoppingPage {
   }
 
   addShoppingItem(shoppingItem: ShoppingItemInterface){
-    this.shoppingItemRef$.push({
-      itemName: this.shoppingItem.itemName,
-      itemNumber: Number(this.shoppingItem.itemNumber)
-    })
+
+    if(this.shoppingItem.itemName && this.shoppingItem.itemNumber){
+      this.shoppingItemRef$.push({
+        itemName: this.shoppingItem.itemName,
+        itemNumber: Number(this.shoppingItem.itemNumber)
+      })
+    }
+
 
     this.shoppingItem = {} as ShoppingItemInterface;
 
