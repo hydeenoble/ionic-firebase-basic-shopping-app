@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database";
 
 import {ShoppingItemInterface} from "../../models/shopping-item/shopping-item.interface";
 
@@ -19,11 +20,23 @@ export class AddShoppingPage {
 
   shoppingItem = {} as ShoppingItemInterface;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  shoppingItemRef$: FirebaseListObservable<ShoppingItemInterface[]>;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private database: AngularFireDatabase) {
+    this.shoppingItemRef$ = this.database.list('shopping-list');
+
   }
 
   addShoppingItem(shoppingItem: ShoppingItemInterface){
-    console.log(shoppingItem);
+    this.shoppingItemRef$.push({
+      itemName: this.shoppingItem.itemName,
+      itemNumber: Number(this.shoppingItem.itemNumber)
+    })
+
+    this.shoppingItem = {} as ShoppingItemInterface;
+
+    this.navCtrl.pop();
   }
 
 }
