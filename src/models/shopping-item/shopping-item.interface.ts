@@ -1,4 +1,6 @@
 export interface ShoppingItemInterface{
   itemName: string,
-  itemNumber: number
+  itemNumber: number,
+  $key?: string
+
 }
