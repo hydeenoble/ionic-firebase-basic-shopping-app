@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import {ShoppingItemInterface} from "../../models/shopping-item/shopping-item.interface";
+
 /**
  * Generated class for the AddShoppingPage page.
  *
@@ -15,11 +17,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AddShoppingPage {
 
+  shoppingItem = {} as ShoppingItemInterface;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddShoppingPage');
+  addShoppingItem(shoppingItem: ShoppingItemInterface){
+    console.log(shoppingItem);
   }
 
 }

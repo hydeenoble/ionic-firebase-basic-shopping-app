@@ -16,7 +16,7 @@ import {AddShoppingPage} from "../add-shopping/add-shopping";
 })
 export class ShoppingListPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private navCtrl: NavController, public navParams: NavParams) {
   }
 
   navigateToAddShoppingPage(): void {
